@@ -1,6 +1,6 @@
 package model;
 
-public class Putusan {
+public class Putusan extends BaseEntity {
     private String nomorPerkara;
     private String pengadilan;
     private String tanggalPutusan;
@@ -17,10 +17,12 @@ public class Putusan {
     private static int jumlahDibuat = 0;
 
     public Putusan() {
+        super();
         jumlahDibuat++;
     }
 
     public Putusan(String nomorPerkara, String pengadilan, String tanggalPutusan, String namaTerdakwa, int umurTerdakwa, String jenisNarkotika, double beratBarangBukti, String pasalDilanggar, String peranTerdakwa, int vonisHukuman, double vonisDenda, String namaHakim) {
+        super(nomorPerkara);
         this.nomorPerkara = nomorPerkara;
         this.pengadilan = pengadilan;
         this.tanggalPutusan = tanggalPutusan;
@@ -142,6 +144,7 @@ public class Putusan {
         }
     }
 
+    @Override
     public String getInfo() {
         return String.format("[%s] %s | %s | %d bln | %s", nomorPerkara, namaTerdakwa, jenisNarkotika, vonisHukuman, getKategoriHukuman());
     }
