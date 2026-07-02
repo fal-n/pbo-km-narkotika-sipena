@@ -51,6 +51,16 @@ public class KnowledgeRepository {
         return hasil;
     }
 
+    public ArrayList<Putusan> filterByKategori(String kategori) {
+        ArrayList<Putusan> hasil = new ArrayList<>();
+        for (Putusan p : daftarPutusan) {
+            if (p.getKategoriHukuman().equalsIgnoreCase(kategori.trim())) {
+                hasil.add(p);
+            }
+        }
+        return hasil;
+    }
+
     public boolean hapus(String nomor) {
         Putusan target = cariByNomor(nomor);
         if (target != null) {
