@@ -61,6 +61,16 @@ public class KnowledgeRepository {
         return hasil;
     }
 
+    public boolean update(String nomor, Putusan baru) {
+        for (int i = 0; i < daftarPutusan.size(); i++) {
+            if (daftarPutusan.get(i).getNomorPerkara().equalsIgnoreCase(nomor.trim())) {
+                daftarPutusan.set(i, baru);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean hapus(String nomor) {
         Putusan target = cariByNomor(nomor);
         if (target != null) {
