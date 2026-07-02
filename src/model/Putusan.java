@@ -1,6 +1,6 @@
 package model;
 
-public class Putusan extends BaseEntity {
+public class Putusan extends BaseEntity implements Displayable {
     private String nomorPerkara;
     private String pengadilan;
     private String tanggalPutusan;
@@ -116,10 +116,12 @@ public class Putusan extends BaseEntity {
         }
     }
 
+    @Override
     public void tampilkan() {
         System.out.printf("%-32s | %-22s | %-10s | %4d bln | %-6s%n", nomorPerkara, namaTerdakwa, jenisNarkotika, vonisHukuman, getKategoriHukuman());
     }
 
+    @Override
     public void tampilkan(boolean detail) {
         if (detail) {
             System.out.println("╔══════════════════════════════════════════════╗");
