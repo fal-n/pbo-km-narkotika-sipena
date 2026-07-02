@@ -26,6 +26,9 @@ public class Main {
         //Scanner tunggal untuk seluruh aplikas
         Scanner sc = new Scanner(System.in);
 
+        //Menginisiasi scanner
+        System.out.println("Menginisialisasi sistem...");
+
         //Loop menu utama
         boolean berjalan = true;
         while (berjalan) {
