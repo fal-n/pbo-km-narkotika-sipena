@@ -38,6 +38,10 @@ public class Main {
             for (Putusan p : hasilParsing) {
                 repository.simpan(p);
             }
+            if (repository.getTotalData() == 0) {
+                view.tampilkanPesan("   Tidak ada data dari PDF, memuat data sampel sebagai cadangan.");
+                DataSample.loadData(repository);
+            }
         }
 
         //Muat data sampel 50 putusan
