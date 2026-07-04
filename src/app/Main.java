@@ -2,9 +2,13 @@ package app;
 
 import controller.KnowledgeController;
 import model.KnowledgeRepository;
+import model.Putusan;
 import util.DataSample;
+import util.InputHandler;
+import util.PdfParser;
 import view.ConsoleView;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -16,18 +20,46 @@ public class Main {
         ConsoleView view = new ConsoleView();// VIEW
         KnowledgeController controller = new KnowledgeController(repository, view);// CTRL
 
-        //Muat data sampel 50 putusan
-        System.out.println("╔══════════════════════════════════════════════════╗");
-        System.out.println("║   KMS PUTUSAN PENGADILAN NARKOTIKA — JAVA MVC    ║");
-        System.out.println("╚══════════════════════════════════════════════════╝");
-        System.out.println();
-        DataSample.loadData(repository);
-
-        //Scanner tunggal untuk seluruh aplikas
         Scanner sc = new Scanner(System.in);
-
         //Menginisiasi scanner
         System.out.println("Menginisialisasi sistem...");
+
+        System.out.println("╔══════════════════════════════════════════════════╗");
+        System.out.println("║   KMS PUTUSAN PENGADILAN NARKOTIKA — JAVA MVC   ║");
+        System.out.println("║   Semester Genap 2025/2026  |  PBO               ║");
+        System.out.println("╚══════════════════════════════════════════════════╝");
+        System.out.println();
+
+        System.out.println("  Pilih sumber data awal:");
+        System.out.println("  1. Data sampel hardcoded (50 putusan)");
+        System.out.println("  2. Parsing otomatis dari folder PDF");
+        System.out.println("  3. Input data secara manual");
+        int sumberData = InputHandler.validasiPilihan("  Pilihan [1-3]: ", 1, 3, sc);
+
+        switch (sumberData) {
+            case 1:
+                DataSample.loadData(repository);
+                break;
+            case 2:
+                String pathFolder = InputHandler.validasiString(
+                        "  Masukkan path folder PDF (mis. dataset/pdf-putusan): ", sc);
+                ArrayList<Putusan> hasilParsing = PdfParser.parseDirektori(pathFolder);
+                for (Putusan p : hasilParsing) {
+                    repository.simpan(p);
+                }
+                if (repository.getTotalData() == 0) {
+                    view.tampilkanPesan("   Tidak ada data dari PDF, memuat data sampel sebagai cadangan.");
+                    DataSample.loadData(repository);
+                }
+                break;
+            case 3:
+                controller.handleTambahPutusan(sc);
+                if (repository.getTotalData() == 0) {
+                    view.tampilkanPesan("   Tidak ada data user input, memuat data sampel sebagai cadangan.");
+                    DataSample.loadData(repository);
+                }
+                break;
+        }
 
         //Loop menu utama
         boolean berjalan = true;

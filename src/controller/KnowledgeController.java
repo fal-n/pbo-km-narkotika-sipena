@@ -24,14 +24,22 @@ public class KnowledgeController {
         String[] rawData = view.inputFormPutusan(sc);
 
         //Controller memvalidasi & membuat objek, lalu simpan ke Model
-        boolean sukses = tambahPutusan(rawData);
+        String konfirmasi = InputHandler.validasiStringDariPilihan(
+                "  Yakin ingin menambah? (ya/tidak): ",
+                new String[]{"ya", "tidak"}, sc);
 
-        // Controller memberi tahu View hasilnya
-        if (sukses) {
-            view.tampilkanPesan("Putusan berhasil ditambahkan! "
-                    + "Total data: " + repository.getTotalData());
+        if ("ya".equalsIgnoreCase(konfirmasi)) {
+            boolean sukses = tambahPutusan(rawData);
+
+            // Controller memberi tahu View hasilnya
+            if (sukses) {
+                view.tampilkanPesan("Putusan berhasil ditambahkan! "
+                        + "Total data: " + repository.getTotalData());
+            } else {
+                view.tampilkanPesan("Gagal menambahkan putusan. Periksa kembali data Anda.");
+            }
         } else {
-            view.tampilkanPesan("Gagal menambahkan putusan. Periksa kembali data Anda.");
+            view.tampilkanPesan("  Menambah data dibatalkan.");
         }
     }
 
@@ -217,10 +225,18 @@ public class KnowledgeController {
                     Double.parseDouble(rawData[6]), rawData[7], rawData[8],
                     Integer.parseInt(rawData[9]), Double.parseDouble(rawData[10]), rawData[11]
             );
-            boolean sukses = repository.update(nomor, baru);
-            view.tampilkanPesan(sukses
-                    ? "utusan berhasil diperbarui!"
-                    : "Gagal memperbarui putusan.");
+            String konfirmasi = InputHandler.validasiStringDariPilihan(
+                    "  Yakin ingin mengupdate? (ya/tidak): ",
+                    new String[]{"ya", "tidak"}, sc);
+
+            if ("ya".equalsIgnoreCase(konfirmasi)) {
+                boolean sukses = repository.update(nomor, baru);
+                view.tampilkanPesan(sukses
+                        ? "utusan berhasil diperbarui!"
+                        : "Gagal memperbarui putusan.");
+            } else {
+                view.tampilkanPesan("  Update dibatalkan.");
+            }
         } catch (Exception e) {
             view.tampilkanPesan("Error saat update: " + e.getMessage());
         }
