@@ -24,6 +24,12 @@ public class Main {
         //Menginisiasi scanner
         System.out.println("Menginisialisasi sistem...");
 
+        System.out.println("╔══════════════════════════════════════════════════╗");
+        System.out.println("║   KMS PUTUSAN PENGADILAN NARKOTIKA — JAVA MVC   ║");
+        System.out.println("║   Semester Genap 2025/2026  |  PBO               ║");
+        System.out.println("╚══════════════════════════════════════════════════╝");
+        System.out.println();
+
         System.out.println("  Pilih sumber data awal:");
         System.out.println("  1. Data sampel hardcoded (50 putusan)");
         System.out.println("  2. Parsing otomatis dari folder PDF");
@@ -43,12 +49,6 @@ public class Main {
                 DataSample.loadData(repository);
             }
         }
-
-        //Muat data sampel 50 putusan
-        System.out.println("╔══════════════════════════════════════════════════╗");
-        System.out.println("║   KMS PUTUSAN PENGADILAN NARKOTIKA — JAVA MVC    ║");
-        System.out.println("╚══════════════════════════════════════════════════╝");
-        System.out.println();
 
         //Loop menu utama
         boolean berjalan = true;
