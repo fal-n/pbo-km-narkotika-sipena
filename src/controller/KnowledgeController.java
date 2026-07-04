@@ -217,10 +217,18 @@ public class KnowledgeController {
                     Double.parseDouble(rawData[6]), rawData[7], rawData[8],
                     Integer.parseInt(rawData[9]), Double.parseDouble(rawData[10]), rawData[11]
             );
-            boolean sukses = repository.update(nomor, baru);
-            view.tampilkanPesan(sukses
-                    ? "utusan berhasil diperbarui!"
-                    : "Gagal memperbarui putusan.");
+            String konfirmasi = InputHandler.validasiStringDariPilihan(
+                    "  Yakin ingin mengupdate? (ya/tidak): ",
+                    new String[]{"ya", "tidak"}, sc);
+
+            if ("ya".equalsIgnoreCase(konfirmasi)) {
+                boolean sukses = repository.update(nomor, baru);
+                view.tampilkanPesan(sukses
+                        ? "utusan berhasil diperbarui!"
+                        : "Gagal memperbarui putusan.");
+            } else {
+                view.tampilkanPesan("  Update dibatalkan.");
+            }
         } catch (Exception e) {
             view.tampilkanPesan("Error saat update: " + e.getMessage());
         }
