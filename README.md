@@ -38,7 +38,7 @@ Saat pertama dijalankan, pilih sumber data:
 
 ## 4. Video Demo
 
-**[Tonton Video Demo di YouTube](https://www.youtube.com/watch?v=)**
+**[Tonton Video Demo di YouTube](https://www.youtube.com/watch?v=1IfmNBpwqq0)**
 
 ---
 
