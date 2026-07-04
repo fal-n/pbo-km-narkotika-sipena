@@ -54,6 +54,10 @@ public class Main {
                 break;
             case 3:
                 controller.handleTambahPutusan(sc);
+                if (repository.getTotalData() == 0) {
+                    view.tampilkanPesan("   Tidak ada data user input, memuat data sampel sebagai cadangan.");
+                    DataSample.loadData(repository);
+                }
                 break;
         }
 
