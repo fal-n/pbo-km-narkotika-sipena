@@ -33,21 +33,28 @@ public class Main {
         System.out.println("  Pilih sumber data awal:");
         System.out.println("  1. Data sampel hardcoded (50 putusan)");
         System.out.println("  2. Parsing otomatis dari folder PDF");
-        int sumberData = InputHandler.validasiPilihan("  Pilihan [1-2]: ", 1, 2, sc);
+        System.out.println("  3. Input data secara manual");
+        int sumberData = InputHandler.validasiPilihan("  Pilihan [1-3]: ", 1, 3, sc);
 
-        if (sumberData == 1) {
-            DataSample.loadData(repository);
-        } else {
-            String pathFolder = InputHandler.validasiString(
-                    "  Masukkan path folder PDF (mis. dataset/pdf-putusan): ", sc);
-            ArrayList<Putusan> hasilParsing = PdfParser.parseDirektori(pathFolder);
-            for (Putusan p : hasilParsing) {
-                repository.simpan(p);
-            }
-            if (repository.getTotalData() == 0) {
-                view.tampilkanPesan("   Tidak ada data dari PDF, memuat data sampel sebagai cadangan.");
+        switch (sumberData) {
+            case 1:
                 DataSample.loadData(repository);
-            }
+                break;
+            case 2:
+                String pathFolder = InputHandler.validasiString(
+                        "  Masukkan path folder PDF (mis. dataset/pdf-putusan): ", sc);
+                ArrayList<Putusan> hasilParsing = PdfParser.parseDirektori(pathFolder);
+                for (Putusan p : hasilParsing) {
+                    repository.simpan(p);
+                }
+                if (repository.getTotalData() == 0) {
+                    view.tampilkanPesan("   Tidak ada data dari PDF, memuat data sampel sebagai cadangan.");
+                    DataSample.loadData(repository);
+                }
+                break;
+            case 3:
+                controller.handleTambahPutusan(sc);
+                break;
         }
 
         //Loop menu utama
