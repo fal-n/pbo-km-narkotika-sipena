@@ -2,9 +2,13 @@ package app;
 
 import controller.KnowledgeController;
 import model.KnowledgeRepository;
+import model.Putusan;
 import util.DataSample;
+import util.InputHandler;
+import util.PdfParser;
 import view.ConsoleView;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -16,18 +20,31 @@ public class Main {
         ConsoleView view = new ConsoleView();// VIEW
         KnowledgeController controller = new KnowledgeController(repository, view);// CTRL
 
+        Scanner sc = new Scanner(System.in);
+        //Menginisiasi scanner
+        System.out.println("Menginisialisasi sistem...");
+
+        System.out.println("  Pilih sumber data awal:");
+        System.out.println("  1. Data sampel hardcoded (50 putusan)");
+        System.out.println("  2. Parsing otomatis dari folder PDF");
+        int sumberData = InputHandler.validasiPilihan("  Pilihan [1-2]: ", 1, 2, sc);
+
+        if (sumberData == 1) {
+            DataSample.loadData(repository);
+        } else {
+            String pathFolder = InputHandler.validasiString(
+                    "  Masukkan path folder PDF (mis. dataset/pdf-putusan): ", sc);
+            ArrayList<Putusan> hasilParsing = PdfParser.parseDirektori(pathFolder);
+            for (Putusan p : hasilParsing) {
+                repository.simpan(p);
+            }
+        }
+
         //Muat data sampel 50 putusan
         System.out.println("╔══════════════════════════════════════════════════╗");
         System.out.println("║   KMS PUTUSAN PENGADILAN NARKOTIKA — JAVA MVC    ║");
         System.out.println("╚══════════════════════════════════════════════════╝");
         System.out.println();
-        DataSample.loadData(repository);
-
-        //Scanner tunggal untuk seluruh aplikas
-        Scanner sc = new Scanner(System.in);
-
-        //Menginisiasi scanner
-        System.out.println("Menginisialisasi sistem...");
 
         //Loop menu utama
         boolean berjalan = true;
