@@ -24,14 +24,22 @@ public class KnowledgeController {
         String[] rawData = view.inputFormPutusan(sc);
 
         //Controller memvalidasi & membuat objek, lalu simpan ke Model
-        boolean sukses = tambahPutusan(rawData);
+        String konfirmasi = InputHandler.validasiStringDariPilihan(
+                "  Yakin ingin menambah? (ya/tidak): ",
+                new String[]{"ya", "tidak"}, sc);
 
-        // Controller memberi tahu View hasilnya
-        if (sukses) {
-            view.tampilkanPesan("Putusan berhasil ditambahkan! "
-                    + "Total data: " + repository.getTotalData());
+        if ("ya".equalsIgnoreCase(konfirmasi)) {
+            boolean sukses = tambahPutusan(rawData);
+
+            // Controller memberi tahu View hasilnya
+            if (sukses) {
+                view.tampilkanPesan("Putusan berhasil ditambahkan! "
+                        + "Total data: " + repository.getTotalData());
+            } else {
+                view.tampilkanPesan("Gagal menambahkan putusan. Periksa kembali data Anda.");
+            }
         } else {
-            view.tampilkanPesan("Gagal menambahkan putusan. Periksa kembali data Anda.");
+            view.tampilkanPesan("  Menambah data dibatalkan.");
         }
     }
 
